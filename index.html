@@ -15,30 +15,31 @@
     <template x-if="showResult">
       <div class="m-4">
         <h2 class="text-3xl">Ergebnis</h2>
-        <h2 class="text-2xl">Korrekte Antworten: <span x-text="correct"></span></h2>
+        <h2 class="text-2xl">Richtige Antworten: <span x-text="correct"></span></h2>
         <h2 class="text-2xl">Falsche Antworten: <span x-text="incorrect"></span></h2>
         <template x-for="ia in incorrectAnswers">
           <div>
             <p class="mt-4">Frage: <span x-text="questions[ia.q].frage"></span></p>
             <p>Falsch: <span x-text="ia.answer"></span></p>
             <p>Richtig: <span x-text="questions[ia.q].antwort1"></span></p>
+            <button class="mt-4 border hover:bg-gray-200  rounded-xl p-2" x-on:click="()=>toggleImage(ia)">Bild
+              zeigen</button>
+            <img class="mt-4" x-show="ia.showingImage" x-bind:src="image(ia)" :key="currq" />
           </div>
         </template>
       </div>
     </template>
 
     <template x-if="!showResult">
-      <div class="m-4">
-        <div id="div2" class="">
-          <video controls x-bind:src="video()" type="video/mp4" />
-          Problem
+      <div id="quiz" class="m-4 transition-transform">
+        <div id="div2">
+          <video controls autoplay x-bind:src="video()" type="video/mp4">
+            Problem
           </video>
         </div>
         <div class="mt-4">
           <h2 class="text-3xl" x-text="questions[currq].frage"></h2>
           <template x-for="(answer,index) in answers()">
-
-
             <div
               class="m-2 flex items-center justify-start gap-2 font-medium text-neutral-600 has-disabled:opacity-75 dark:text-neutral-300">
               <input x-bind:id="index" type="radio"
@@ -46,8 +47,6 @@
                 name="answer" x-bind:value="index" x-model="chosenAnswer">
               <label x-bind:for="index" class="text-base" x-text="answer"></label>
             </div>
-
-
             <!-- <h3 class="text-2xl m-2" x-text="answer"></h3> -->
           </template>
           <button x-bind:disabled="chosenAnswer == -1" x-on:click="nextq"
@@ -55,10 +54,39 @@
             class="border hover:bg-gray-200  rounded-xl p-2"></button>
         </div>
       </div>
-  </div>
-  </template>
+    </template>
 
-  <script type="module" src="/src/main.js"></script>
+    <script type="module" src="/src/main.js"></script>
 </body>
 
 </html>
+
+<style>
+  .slide-in {
+    animation: slideIn 0.6s forwards ease-out;
+  }
+
+  .slide-out {
+    animation: slideOut 0.6s forwards ease-in;
+  }
+
+  @keyframes slideIn {
+    from {
+      transform: translateX(100%);
+    }
+
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slideOut {
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(-100%);
+    }
+  }
+</style>

@@ -17,6 +17,7 @@ const questions = [
     antwort2: "Die Begleitung muss auf der Straße fahren, da auf dem Gehweg zu wenig Platz ist.",
     antwort3: "Begleitung und Kind haben Vorfahrt gegenüber der grün gekleideten Radfahrerin.",
   },
+  /*
   {
     frage: "Was müssen die Verkehrsteilnehmenden hier beachten?",
     antwort1:
@@ -93,6 +94,7 @@ const questions = [
     antwort2: "Nein, sie dürfen nicht nebeneinander fahren.",
     antwort3: "Ja, solange sie wie alle Fahrzeuge nur Schrittgeschwindigkeit fahren.",
   },
+*/
 ];
 
 function shuffle(arr) {
@@ -121,17 +123,23 @@ export default function question() {
       const answer = this.shuffledAnswers[this.chosenAnswer];
       if (questions[this.currq].antwort1 == answer) {
         this.correct++;
-        console.log("corr");
       } else {
         this.incorrect++;
-        console.log("incorr");
-        this.incorrectAnswers.push({ q: this.currq, answer });
+        this.incorrectAnswers.push({ q: this.currq, answer, showingImage: false });
       }
       this.chosenAnswer = -1;
-      this.currq++;
-      if (this.currq >= questions.length) {
-        this.showResult = true;
-      }
+      const me = this;
+      const quiz = document.querySelector("#quiz");
+      quiz.classList.add("slide-out");
+      setTimeout(() => {
+        quiz.classList.remove("slide-out");
+        quiz.classList.add("slide-in");
+        if (me.currq >= questions.length - 1) {
+          me.showResult = true;
+        } else {
+          me.currq++;
+        }
+      }, 600);
     },
     answers() {
       const q = questions[this.currq];
@@ -142,6 +150,18 @@ export default function question() {
       let s = "" + (this.currq + 1);
       if (s.length == 1) s = "0" + s;
       return "/assets/" + s + ".mp4";
+    },
+    image(ia) {
+      let s = "" + (ia.q + 1);
+      if (s.length == 1) s = "0" + s;
+      return "/assets/" + s + ".jpg";
+    },
+    toggleImage(ia) {
+      const v = ia.showingImage;
+      for (const ia2 of this.incorrectAnswers) {
+        ia2.showingImage = false;
+      }
+      ia.showingImage = !v;
     },
   };
 }
