@@ -17,7 +17,6 @@ const questions = [
     antwort2: "Die Begleitung muss auf der Straße fahren, da auf dem Gehweg zu wenig Platz ist.",
     antwort3: "Begleitung und Kind haben Vorfahrt gegenüber der grün gekleideten Radfahrerin.",
   },
-  /*
   {
     frage: "Was müssen die Verkehrsteilnehmenden hier beachten?",
     antwort1:
@@ -94,7 +93,6 @@ const questions = [
     antwort2: "Nein, sie dürfen nicht nebeneinander fahren.",
     antwort3: "Ja, solange sie wie alle Fahrzeuge nur Schrittgeschwindigkeit fahren.",
   },
-*/
 ];
 
 function shuffle(arr) {
@@ -132,14 +130,16 @@ export default function question() {
       const quiz = document.querySelector("#quiz");
       quiz.classList.add("slide-out");
       setTimeout(() => {
-        quiz.classList.remove("slide-out");
-        quiz.classList.add("slide-in");
         if (me.currq >= questions.length - 1) {
           me.showResult = true;
         } else {
           me.currq++;
         }
       }, 600);
+      setTimeout(() => {
+        quiz.classList.remove("slide-out");
+        quiz.classList.add("slide-in");
+      }, 700);
     },
     answers() {
       const q = questions[this.currq];
