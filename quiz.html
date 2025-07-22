@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="de">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/ADFC.jpg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="/app.css" rel="stylesheet">
+  <title>Quiz</title>
+</head>
+
+<body class="bg-gray-100" x-data="quizData">
+  <template x-if="!showResult">
+    <div id="quiz" class="m-4 transition-transform h-dvh flex flex-col overflow-hidden">
+      <div id="div2" class="overflow-hidden">
+        <video controls autoplay x-bind:src="video()" type="video/mp4" class="w-full h-full object-contain">
+          Problem
+        </video>
+      </div>
+      <div id="div4" class="m-4">
+        <h2 class="text-3xl" x-text="questions[currq].frage"></h2>
+        <template x-for="(answer,index) in answers()">
+          <div
+            class="m-2 flex items-center justify-start gap-2 font-medium text-neutral-600 has-disabled:opacity-75 dark:text-neutral-300">
+            <input x-bind:id="index" type="radio"
+              class="before:content[''] relative h-5 w-5 appearance-none rounded-full border border-neutral-300 bg-neutral-50 before:invisible before:absolute before:left-1/2 before:top-1/2 before:h-2 before:w-2 before:-translate-x-1/2 before:-translate-y-1/2 before:rounded-full before:bg-neutral-100 checked:border-black checked:bg-black checked:before:visible focus:outline-2 focus:outline-offset-2 focus:outline-neutral-800 checked:focus:outline-black disabled:cursor-not-allowed dark:border-neutral-700 dark:bg-neutral-900 dark:before:bg-black dark:checked:border-white dark:checked:bg-white dark:focus:outline-neutral-300 dark:checked:focus:outline-white"
+              name="answer" x-bind:value="index" x-model="chosenAnswer">
+            <label x-bind:for="index" class="text-base" x-text="answer"></label>
+          </div>
+          <!-- <h3 class="text-2xl m-2" x-text="answer"></h3> -->
+        </template>
+        <button x-bind:disabled="chosenAnswer == -1" x-on:click="nextq"
+          x-text="currq == questions.length-1 ? 'Zur Auswertung' : 'Zur nächsten Frage'"
+          class="border hover:bg-gray-200  rounded-xl p-2 m-2"></button>
+      </div>
+    </div>
+  </template>
+
+  <template x-if="showResult">
+    <div class="m-4">
+      <h2 class="text-3xl">Ergebnis</h2>
+      <h2 class="text-2xl">Richtige Antworten: <span x-text="correct"></span></h2>
+      <h2 class="text-2xl">Falsche Antworten: <span x-text="incorrect"></span></h2>
+      <template x-for="ia in incorrectAnswers">
+        <div>
+          <p class="mt-4">Frage: <span x-text="questions[ia.q].frage"></span></p>
+          <p>Falsch: <span x-text="ia.answer"></span></p>
+          <p>Richtig: <span x-text="questions[ia.q].antwort1"></span></p>
+          <button class="mt-4 border hover:bg-gray-200  rounded-xl p-2" x-on:click="()=>toggleImage(ia)">Bild
+            zeigen</button>
+          <img class="mt-4 object-contain w-full h-full" x-show="ia.showingImage" x-bind:src="image(ia)" :key="currq" />
+        </div>
+      </template>
+      <div class="h-20"></div>
+      <a href="ende.html" class="border hover:bg-gray-200  rounded-xl p-2">Zum Ende</a>
+    </div>
+  </template>
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>
+
+<style>
+  .slide-in {
+    animation: slideIn 0.6s forwards ease-out;
+  }
+
+  .slide-out {
+    animation: slideOut 0.6s forwards ease-in;
+  }
+
+  @keyframes slideIn {
+    from {
+      transform: translateX(100%);
+    }
+
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slideOut {
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(-100%);
+    }
+  }
+</style>

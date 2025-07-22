@@ -16,7 +16,7 @@ const questions = [
     antwort1: "Die Begleitperson kann in beide Richtungen ebenfalls auf dem Gehweg fahren.",
     antwort2: "Die Begleitung muss auf der Straße fahren, da auf dem Gehweg zu wenig Platz ist.",
     antwort3: "Begleitung und Kind haben Vorfahrt gegenüber der grün gekleideten Radfahrerin.",
-  },
+  } /*
   {
     frage: "Was müssen die Verkehrsteilnehmenden hier beachten?",
     antwort1:
@@ -92,7 +92,7 @@ const questions = [
     antwort1: "Ja, solange sie wie alle Fahrzeuge maximal 30km/h fahren.",
     antwort2: "Nein, sie dürfen nicht nebeneinander fahren.",
     antwort3: "Ja, solange sie wie alle Fahrzeuge nur Schrittgeschwindigkeit fahren.",
-  },
+  },*/,
 ];
 
 function shuffle(arr) {
